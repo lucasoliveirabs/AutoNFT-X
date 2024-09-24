@@ -193,5 +193,70 @@ contract AutoNFTTest is Test {
         assertEq(history[2], 0xC89d705104aFff28245e58C05AcfC82f91F2aEe9);
     }
 
-    //burn
+    function testBurn() public {
+        //  First burn()
+        vm.prank(0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73); //owner
+        autoNFTContract.safeMint(
+            address(1),
+            "Ford",
+            "Ka",
+            2022,
+            "121222",
+            "gray",
+            1222,
+            "URI/uri"
+        );
+        assertEq(autoNFTContract.getVehicleId(), 1);
+
+        vm.prank(address(1));
+        autoNFTContract.burn(1);
+
+        address[] memory history = autoNFTContract
+            .getvehicleOwnershipHistoryById(1);
+        assertEq(history[0], address(1));
+        assertEq(history[1], address(0));
+
+        //  Second burn()
+        vm.prank(0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73);
+        autoNFTContract.safeMint(
+            address(1),
+            "BYD",
+            "Dolphin",
+            2024,
+            "11",
+            "black",
+            12,
+            "URI/uri/2"
+        );
+        assertEq(autoNFTContract.getVehicleId(), 2);
+
+        vm.prank(address(1));
+        autoNFTContract.safeTransferFrom(
+            address(1),
+            0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73,
+            2
+        );
+        history = autoNFTContract.getvehicleOwnershipHistoryById(2);
+        assertEq(history[0], address(1));
+        assertEq(history[1], 0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73);
+
+        vm.prank(0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73);
+        autoNFTContract.safeTransferFrom(
+            0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73,
+            0xC89d705104aFff28245e58C05AcfC82f91F2aEe9,
+            2
+        );
+        history = autoNFTContract.getvehicleOwnershipHistoryById(2);
+        assertEq(history[0], address(1));
+        assertEq(history[1], 0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73);
+        assertEq(history[2], 0xC89d705104aFff28245e58C05AcfC82f91F2aEe9);
+
+        vm.prank(0xC89d705104aFff28245e58C05AcfC82f91F2aEe9);
+        autoNFTContract.burn(2);
+        history = autoNFTContract.getvehicleOwnershipHistoryById(2);
+        assertEq(history[0], address(1));
+        assertEq(history[1], 0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73);
+        assertEq(history[2], 0xC89d705104aFff28245e58C05AcfC82f91F2aEe9);
+        assertEq(history[3], address(0));
+    }
 }

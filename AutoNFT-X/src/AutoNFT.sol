@@ -46,7 +46,6 @@ contract AutoNFT is
         uint16 _year,
         string calldata _vin,
         string calldata _color,
-        uint256 _kilometerMileage,
         string calldata _uri
     ) public onlyOwner {
         ++vehicleId;
@@ -59,7 +58,6 @@ contract AutoNFT is
             year: _year,
             vin: _vin,
             color: _color,
-            kilometerMileage: _kilometerMileage,
             imageURI: _uri
         });
     }

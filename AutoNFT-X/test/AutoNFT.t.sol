@@ -27,7 +27,6 @@ contract AutoNFTTest is Test {
             2022,
             "121222",
             "gray",
-            1222,
             "URI/uri"
         );
 
@@ -44,7 +43,6 @@ contract AutoNFTTest is Test {
         assertEq(vehicle.year, 2022);
         assertEq(vehicle.vin, "121222");
         assertEq(vehicle.color, "gray");
-        assertEq(vehicle.kilometerMileage, 1222);
         assertEq(vehicle.imageURI, "URI/uri");
 
         //  Second mint()
@@ -56,7 +54,6 @@ contract AutoNFTTest is Test {
             2024,
             "11",
             "black",
-            12,
             "URI/uri/2"
         );
 
@@ -73,7 +70,6 @@ contract AutoNFTTest is Test {
         assertEq(vehicle.year, 2024);
         assertEq(vehicle.vin, "11");
         assertEq(vehicle.color, "black");
-        assertEq(vehicle.kilometerMileage, 12);
         assertEq(vehicle.imageURI, "URI/uri/2");
 
         //  Third mint()
@@ -85,7 +81,6 @@ contract AutoNFTTest is Test {
             2010,
             "100",
             "white",
-            100,
             "URI/uri/3"
         );
 
@@ -101,7 +96,6 @@ contract AutoNFTTest is Test {
         assertEq(vehicle.year, 2010);
         assertEq(vehicle.vin, "100");
         assertEq(vehicle.color, "white");
-        assertEq(vehicle.kilometerMileage, 100);
         assertEq(vehicle.imageURI, "URI/uri/3");
     }
 
@@ -115,7 +109,6 @@ contract AutoNFTTest is Test {
             2022,
             "121222",
             "gray",
-            1222,
             "URI/uri"
         );
         assertEq(autoNFTContract.getVehicleId(), 1);
@@ -165,7 +158,6 @@ contract AutoNFTTest is Test {
             2024,
             "11",
             "black",
-            12,
             "URI/uri/2"
         );
         assertEq(autoNFTContract.getVehicleId(), 2);
@@ -203,7 +195,6 @@ contract AutoNFTTest is Test {
             2022,
             "121222",
             "gray",
-            1222,
             "URI/uri"
         );
         assertEq(autoNFTContract.getVehicleId(), 1);
@@ -225,7 +216,6 @@ contract AutoNFTTest is Test {
             2024,
             "11",
             "black",
-            12,
             "URI/uri/2"
         );
         assertEq(autoNFTContract.getVehicleId(), 2);

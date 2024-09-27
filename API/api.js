@@ -1,5 +1,4 @@
 const express = require("express");
-const FormData = require("form-data");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -12,56 +11,50 @@ const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
-app.post("/nft", upload.single('image') ,(req, res) => {
+app.post("/mint", upload.single('image') ,(req, res) => {
     
         if (!req.file) return res.status(400).send('No file uploaded received');
         if (!req.body) return res.status(400).send('No vahicle data was received');
 
-        //receives: form data + image + deployer data 
+        //  remove first vehicle owner address for NFT contract metadata deploy
+        const vehicleOwnerAddress = req.body.vehicleOwnerAddress;
+        delete req.body.vehicleOwnerAddress;
 
-        //mountFormData         
-        //deployIPFS
-        //createNFT
-        //deployNFT
-        //deployOpenSea
-
-        //why formdata?
-        const FormData = new FormData();
-        FormData.append('file', req.file.buffer, {
-            filename: req.body.vin,
-            contentType: req.file.mimetype
-        });
+        const imageIPFSHash = deployImageIPFS(req.file);
+        const metadataIPFSHash = deployMetadataIPFS(imageIPFSHash, req.body);
+        const vehicleId = mintNFT(metadataIPFSHash, vehicleOwnerAddress);   //  use ethers.js
+        const openseaUrl = getOpenSeaURL(vehicleId);
+        const etherscanVehicleIdURL = getEtherscanVehicleIdURL();
     
-        //res.status(201).send("Photo hash, deployed contract address, owner address");      
-})
+        res.status(201).send({vehicleId, vehicleOwnerAddress, etherscanVehicleIdURL, contractAddress, metadataIPFSHash, openseaUrl});
+    })
 
-const mountFormData = () => {
-    try {
-    
-    } catch(error) {
-        res.status(500).send("Failed uploading file");
-    }  
+const deployImageIPFS = (_file) => {
+    const file = _file;
 }
 
-const deployIPFS = () => {
+const deployMetadataIPFS = (_file, _body) => {
+    const {vehicleOwnerAddress, vehicleManufacturer,_vehicleModel, year, vin, color} = _body;
 
+    //mount pattern -> data + image? 
 }
 
-const createNFT = () => {
+const mintNFT = (_metadataIPFSHash, _vehicleOwnerAddress) => {
     try{
 
     } catch(error){
-        res.status(500).send("Failed creating NFT");
+        res.status(500).send("Failed minting NFT");
     }
 }
 
-const deployNFT = () => {
+const getOpenSeaURL = (_vehicleId) => {
+    
+}
+
+const getEtherscanVehicleIdURL = () => {
 
 }
 
-const deployOpenSea = () => {
-
-}
 //turn to https?
 app.listen(port, () => {
     console.log("Server running at port: "+port);

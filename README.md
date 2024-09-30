@@ -4,7 +4,7 @@
 
 ## Features
 
-The API will provide following functionalities:
+The API will provide the following functionalities:
 
 1. **Mint a new NFT** – Creates an NFT representing a vehicle, storing its metadata on IPFS.
 2. **Transfer NFT** – Facilitates the transfer of the NFT from one owner to another.
@@ -17,9 +17,9 @@ The NFT contract inherits and exposes the functions of [ERC721](https://github.c
 
 # Configuration
 
-The owner's private key, which is used for signing transactions, must be configured separately for contract deployment and each API interaction.
+The owner's (deployer) private key, which is used for signing transactions, must be configured separately for contract deployment and each API interaction.
 <br>
-For the purpose of this description, we assume the same private key is used for both configurations. As a result, the gas costs for deploying the contract and for each API call will be deducted from the balance of the address associated with this private key.
+We assume the same private key, owner's, is used for both configurations. As a result, the gas costs for deploying the contract and for each API call will be deducted from the balance of the address associated with this private key.
 
 ### Contracts
 

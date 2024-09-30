@@ -7,6 +7,11 @@
 The API will provide the following functionalities:
 
 1. **Mint a new NFT** – Creates an NFT representing a vehicle, storing its metadata on IPFS.
+   1. **Receive form data and image via POST request** – The API accepts the vehicle data and an image file from a client-side form submission.
+   2. **Upload image to IPFS via Pinata** – The image is stored on the decentralized file system IPFS through Pinata service.
+   3. **Upload metadata (vehicle data + image hash) to IPFS via Pinata** – The vehicle's metadata, along with the IPFS hash of the image, is uploaded to IPFS.
+   4. **Mint a new NFT based on the provided data** – The API interacts with the ERC721 smart contract to mint a new token representing the vehicle.
+   5. **Publish NFT on OpenSea** – The minted NFT is listed and made available for viewing on the OpenSea marketplace.
 2. **Transfer NFT** – Facilitates the transfer of the NFT from one owner to another.
 3. **Get vehicle data by ID** – Retrieves vehicle information linked to the specific NFT ID.
 4. **Get vehicle history by ID** – Provides historical data of a vehicle's changes over time.

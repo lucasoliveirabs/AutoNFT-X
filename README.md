@@ -1,10 +1,10 @@
 # About
 
-**AutoNFT-X** is a solution designed to provide ownership and state tracking of vehicle objects using NFTs. The solution consists of an ERC721-based NFT contract deployed on the Ethereum mainnet and a Node.js API to interact with the smart contract and vehicle data.
+**AutoNFT-X** is a tokenization solution designed to provide ownership and state tracking of vehicles using NFTs. The solution consists of an ERC721-based NFT contract deployed on the Ethereum mainnet and an express.js API to interact with the smart contract.
 
 ## Features
 
-The API will provide the following functionalities:
+The API will provide following functionalities:
 
 1. **Mint a new NFT** – Creates an NFT representing a vehicle, storing its metadata on IPFS.
    1. **Receive form data and image via POST request** – The API accepts the vehicle data and an image file from a client-side form submission.
@@ -18,7 +18,7 @@ The API will provide the following functionalities:
 
 <br>
 
-The NFT contract inherits and exposes the functions of [ERC721](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol), [ERC721URIStorage](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721URIStorage.sol), [ERC721Pausable](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721Pausable.sol), [Ownable](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol), and [ERC721Burnable](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721Burnable.sol).
+AutoNFT-X contract inherits and exposes the functions of [ERC721](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol), [ERC721URIStorage](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721URIStorage.sol), [ERC721Pausable](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721Pausable.sol), [Ownable](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol), and [ERC721Burnable](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721Burnable.sol).
 
 # Configuration
 
@@ -53,4 +53,4 @@ forge build --via-ir
 forge script script/AutoNFT.s.sol:AutoNFTScript --via-ir --rpc-url $MAINNET_NODE_RPC_URL --broadcast --verify
 ```
 
-Two transaction hashes will be logged: the first of contract's deployment and the second of first AutoNFT minting. Go to [etherscan](https://etherscan.io/) and query the hashes to confirm the success.
+Two transaction hashes will be logged: contract deployment one and first AutoNFT minting one. Go to [etherscan](https://etherscan.io/) and query the hashes to confirm deployment success.

@@ -18,12 +18,11 @@ contract AutoNFTScript is Script {
 
         autoNFT.safeMint(
             owner,
-            "AutoNFT",
-            "AutoNFT",
+            "_manufacturer",
+            "_model",
             2024,
-            "AutoNFT",
-            "AutoNFT",
-            2024,
+            "_vin",
+            "_color",
             "URI/uri"
         );
         console.log("[INFO]: First AutoNFT-X deployed. NFT owner: ", owner);

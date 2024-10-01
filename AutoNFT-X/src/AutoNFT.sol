@@ -23,7 +23,6 @@ contract AutoNFT is
         uint16 year;
         string vin;
         string color;
-        uint256 kilometerMileage;
         string imageURI;
     }
 

@@ -1,3 +1,5 @@
+**This repository contains only the documentation for AutoNFT-X solution**, including component diagram and configuration requirements. <br>The actual codebase is not included in this repository **due to its proprietary nature as a commercial project.**
+
 # About
 
 **AutoNFT-X** is a straightforward tokenization solution designed to track vehicle ownership and status efficiently.<br>It features an Express.js API integrated with ethers.js and an ERC721-based NFT contract to create unique digital representations of vehicles.

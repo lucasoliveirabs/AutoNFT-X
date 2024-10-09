@@ -1,18 +1,24 @@
-const express = require("express");
-const app = express();
+const dotenv = require("dotenv");
+const multer = require('multer');
+const FormData = require('form-data');
+const ethers = require('ethers');
 const cors = require('cors');
+const axios = require('axios');
+const bodyParser = require('body-parser');
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
+const express = require("express");
+
+const app = express();
 app.use(cors());
 app.use(express.json());
-const axios = require('axios');
+app.use(bodyParser.json());
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-const multer = require('multer');
-const upload = multer({ storage: multer.memoryStorage() });
-const FormData = require('form-data');
-
-const dotenv = require("dotenv");
 dotenv.config();
 const port = process.env.PORT || 3000;
-
+const upload = multer({ storage: multer.memoryStorage() });
+const abi = require('../AutoNFT-X/out/AutoNFT.sol/AutoNFT.json');
 
 app.post("/mint", upload.single('file'), async ( req, res) => {
     if (!req.file) return res.status(400).send('No file uploaded received');
@@ -24,11 +30,10 @@ app.post("/mint", upload.single('file'), async ( req, res) => {
     const {vehicleManufacturer, vehicleModel, year, vin, color} = req.body;
     const imageIPFSHash = await deployImageIPFS(req.file, res);
     const metadataIPFSHash = await deployMetadataIPFS(imageIPFSHash, vehicleManufacturer, vehicleModel, year, vin, color);
-    console.log(metadataIPFSHash);
+
+    const vehicleId = mintNFT(vehicleOwnerAddress, vehicleManufacturer, vehicleModel, year, vin, color, getIPFSUri(metadataIPFSHash));   //  use ethers.js to return get the id returned
     res.status(201).send({imageIPFSHash});
-        /*
-        const vehicleId = mintNFT(vehicleOwnerAddress, vehicleManufacturer, vehicleModel, year, vin, color, getIPFSUri(metadataIPFSHash));   //  use ethers.js to return get the id returned
-        const openseaUrl = getOpenSeaURL(vehicleId);
+        /*const openseaUrl = getOpenSeaURL(vehicleId);
         const etherscanVehicleIdURL = getEtherscanVehicleIdURL();
     
         res.status(201).send({vehicleId, vehicleOwnerAddress, etherscanVehicleIdURL, contractAddress, metadataIPFSHash, openseaUrl});
@@ -91,9 +96,13 @@ const getIPFSUri = (_metadataIPFSHash) => {
     return `ipfs://${_metadataIPFSHash}`;
 }
 
-const mintNFT = (_metadataIPFSHash, _vehicleOwnerAddress) => {
+const mintNFT = (_metadataIPFSHash, _vehicleOwnerAddress, _abi) => {
     try{
+        const provider = new ethers.JsonRpcProvider(process.env.LOCAL_PROVIDER);
+        const wallet = new ethers.Wallet(process.env.PRIVATE_KEY); 
+        const signer = wallet.connect(provider);
 
+        const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, _abi, provider);
     } catch(error){
         console.log(error);
         res.status(500).send("Failed minting NFT");

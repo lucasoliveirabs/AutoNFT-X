@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
@@ -14,18 +15,21 @@ contract AutoNFTScript is Script {
         console.log("[INFO]: Starting deployment by owner: ", owner);
 
         AutoNFT autoNFT = new AutoNFT(owner);
-        console.log("[INFO]: First AutoNFT deployed. Contract owner: ", owner);
+        console.log(
+            "[INFO]: AutoNFT contract deployed. Contract owner: ",
+            owner
+        );
 
         autoNFT.safeMint(
             owner,
-            "_manufacturer",
-            "_model",
+            "Manufacturer",
+            "Model",
             2024,
-            "_vin",
-            "_color",
+            "VIN",
+            "Color",
             "URI/uri"
         );
-        console.log("[INFO]: First AutoNFT-X deployed. NFT owner: ", owner);
+        console.log("[INFO]: First AutoNFT-X NFT created. NFT owner: ", owner);
 
         vm.stopBroadcast();
     }

@@ -2,7 +2,7 @@
 
 # About
 
-**AutoNFT-X** is a straightforward tokenization solution designed to track vehicle ownership and status efficiently.<br>It features an Express.js API integrated with ethers.js and an ERC721-based NFT contract to create unique digital representations of vehicles.
+**AutoNFT-X** is a straightforward tokenization solution designed to track vehicle ownership and status efficiently.<br>It features an Express.js API integrated with ethers.js and an ERC721-based NFT contract to create unique digital representations of vehicles.<br>Contract's owner is allowed for token operations execution by default.
 
 ```mermaid
 flowchart LR;
@@ -13,7 +13,7 @@ API -- Infura --> Ethereum
 
 ## Features
 
-Main API functionalities, described in [documentation]():
+Main API functionalities, described in localhost [documentation](https://localhost:3000/api-docs/#/):
 
 1. **Mint NFT**
    - **Receive form data and image via POST**
@@ -22,7 +22,7 @@ Main API functionalities, described in [documentation]():
    - **Mint a new vehicle NFT based on provided data**
 2. **Transfer NFT**
 3. **Get vehicle data by ID**
-4. **Get vehicle history by ID**
+4. **Get vehicle ownership history by ID**
 5. **Get OpenSea URL by ID**
 
 <br>
@@ -31,43 +31,124 @@ AutoNFT-X contract also inherits all functions of [ERC721](https://github.com/Op
 
 ## Resources
 
-- **Ethereum Mainnet**
+- **Ethereum**
 - **Solidity**
 - **Foundry**
 - **Pinata**
 - **IPFS**
 - **JavaScript**
 - **Express.js**
-- **Ethers.js**
-- **Docker**<br>
+- **Ethers.js**<br>
 
-## Configuration
+## Deployment
 
-### Contracts
+In all deployment cases, you'll need to deploy the contract before deploying the API.
 
-1. Create './AutoNFT-X/.env' and paste/fill in:
+- Fill in './AutoNFT-X/.env':
 
-   > CHAIN_ID=1<br>
-   > MAINNET_NODE_RPC_URL=[infura-cloud-endpoint](https://docs.infura.io/api/network-endpoints)<br>
-   > PRIVATE_KEY=[0x...b2](https://support.metamask.io/pt-br/managing-my-wallet/secret-recovery-phrase-and-private-keys/how-to-export-an-accounts-private-key/). PS: Add '0x' as the example<br>
-   > ETHERSCAN_API_KEY=[owner-etherscan-api-key](https://docs.etherscan.io/getting-started/viewing-api-usage-statistics)<br>
+> //mainnet
+> MAINNET_NODE_RPC_URL=[infura-cloud-endpoint](https://docs.infura.io/api/network-endpoints)<br>
+> MAINNET_CHAIN_ID=1 [chain-id](https://docs.infura.io/infura/networks/sepolia)<br>
+> MAINNET_ETHERSCAN_API_KEY=[owner-etherscan-api-key](https://docs.etherscan.io/getting-started/viewing-api-usage-statistics)<br>
 
-### API
+> //sepolia
+> SEPOLIA_NODE_RPC_URL=[infura-cloud-endpoint](https://docs.infura.io/api/network-endpoints)<br>
+> SEPOLIA_CHAIN_ID=11155111 [chain-id](https://docs.infura.io/infura/networks/sepolia)<br>
+> SEPOLIA_ETHERSCAN_API_KEY=[owner-etherscan-api-key](https://docs.etherscan.io/getting-started/viewing-api-usage-statistics)<br>
 
-<br>
+> //pinata
+> PINATA_API_KEY=[pinata-api-key](https://knowledge.pinata.cloud/en/articles/6191471-how-to-create-an-pinata-api-key)<br>
+> PINATA_API_SECRET=[pinata-api-secret](https://knowledge.pinata.cloud/en/articles/6191471-how-to-create-an-pinata-api-key)<br>
 
----
+> //private key
+> PRIVATE_KEY=[0x...b2] PS: Add '0x' as the example<br>
 
-# Ethereum mainnet deployment
+- Fill in './API/.env':
 
-At './AutoNFT-X/':
+> //mainnet
+> MAINNET_NODE_RPC_URL=[infura-cloud-endpoint](https://docs.infura.io/api/network-endpoints)<br>
+> MAINNET_CHAIN_ID=1 [chain-id](https://docs.infura.io/infura/networks/sepolia)<br>
+
+> //sepolia
+> SEPOLIA_NODE_RPC_URL=[infura-cloud-endpoint](https://docs.infura.io/api/network-endpoints)<br>
+> SEPOLIA_CHAIN_ID=11155111 [chain-id](https://docs.infura.io/infura/networks/sepolia)<br>
+
+> //localhost
+> LOCAL_PROVIDER=http://localhost:8545<br>
+> LOCAL_CHAIN_ID=31337<br>
+
+> //pinata
+> PINATA_API_KEY=[pinata-api-key](https://knowledge.pinata.cloud/en/articles/6191471-how-to-create-an-pinata-api-key)<br>
+> PINATA_API_SECRET=[pinata-api-secret](https://knowledge.pinata.cloud/en/articles/6191471-how-to-create-an-pinata-api-key)<br>
+
+> //contract
+> CONTRACT_OWNER_ADDRESS= Contract's owner/deployer address. Used as Signer by the API.<br>
+> AUTONFT_CONTRACT_ADDRESS= Set manually after contract's deployment. Displayed in foundry depolyment logs.<br>
+> CONTRACT_OWNER_PRIVATE_KEY=[0x...b2]<br> PS: Add '0x' as the example<br>
+
+## Local deployment configuration
+
+#### Contracts layer
+
+- In './AutoNFT-X/' Run:
 
 ```bash
 curl -L https://foundry.paradigm.xyz | bash
 foundryup
 forge --version
 forge build --via-ir
-forge script script/AutoNFT.s.sol:AutoNFTScript --via-ir --rpc-url $MAINNET_NODE_RPC_URL --broadcast --verify
+   anvil [another terminal]
+forge script script/AutoNFT.s.sol:AutoNFTScript --fork-url http://localhost:8545 --broadcast
 ```
 
-Two transaction hashes will be logged: contract deployment one and first AutoNFT minting one. Go to [etherscan](https://etherscan.io/) and query the hashes to confirm deployment success.
+#### API layer
+
+- In './API/' Run:
+
+```bash
+node api.js
+```
+
+## Sepolia deployment configuration
+
+#### Contracts layer
+
+- In './AutoNFT-X/':
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+forge --version
+forge build --via-ir
+forge script script/AutoNFT.s.sol:AutoNFTScript --via-ir --rpc-url $SEPOLIA_NODE_RPC_URL --broadcast --verify --etherscan-api-key $SEPOLIA_ETHERSCAN_API_KEY
+```
+
+#### API layer
+
+- In './API/' Run:
+
+```bash
+node api.js
+```
+
+## Mainnet deployment configuration
+
+#### Contracts layer
+
+- In './AutoNFT-X/':
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+forge --version
+forge build --via-ir
+forge script script/AutoNFT.s.sol:AutoNFTScript --via-ir --rpc-url $MAINNET_NODE_RPC_URL --broadcast --verify --etherscan-api-key $MAINNET_ETHERSCAN_API_KEY
+```
+
+#### API layer
+
+- In './API/' Run:
+
+```bash
+node api.js
+```
